@@ -11,7 +11,7 @@ typora-copy-images-to: upload
   <a href="LICENSE"><img src="https://badgen.net/badge/license/MIT/000000?labelColor=000000" alt="License"></a>
 </p>
 
-A Typora theme in the spirit of [VitePress](https://vitepress.dev/)'s default look, sharing its design family with my [blog](https://fro-blo.com). Light first, with a dark scheme that follows your system appearance.
+A Typora theme in the spirit of [VitePress](https://vitepress.dev/)'s default look. Light first, with a dark scheme that follows your system appearance.
 
 > [!NOTE]
 > **On the two-year silence.** This theme sat untouched after 2024 for two reasons: I stopped using Typora day-to-day, and I moved to a new GitHub account ([@0froq](https://github.com/0froq)), leaving the old one behind. While migrating repos I found this one had picked up a dozen or so stars — genuinely flattering, and sorry for the silence that followed.
@@ -54,6 +54,8 @@ Dark mode needs nothing extra: it follows the system appearance.
 See [CHANGELOG.md](CHANGELOG.md). Current release: [v0.1.0](https://github.com/0froq/typora-fro/releases/tag/v0.1.0).
 
 ## About
+
+The 2024 original took its style from my [blog](https://fro-blo.com) as it looked then. The blog has since been rewritten and no longer resembles this theme — so don't go there expecting a match; what you see in the screenshots is what the theme is now.
 
 Feel free to report bugs and tell me your ideas about the design.
 
