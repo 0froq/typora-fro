@@ -21,10 +21,9 @@ A Typora theme in the spirit of [VitePress](https://vitepress.dev/)'s default lo
 ## What's in it
 
 - **Dark mode** that follows the system appearance — no setting to remember, and native controls (scrollbars, form fields, tooltips) flip with it.
-- **Code highlighting** built on the palette of [lig.nvim](https://github.com/0froq/lig.nvim): colour for structure, actions and references only, so keywords and identifiers stay out of the way. Separate ramps for light, dark and print.
-- **Print and export styles** — paper stays light regardless of your scheme, shadows gone, fences and tables kept off page breaks.
+- **Code highlighting** built on the palette of [lig.nvim](https://github.com/0froq/lig.nvim) and [LiG for Code](https://github.com/0froq/vscode-theme-LiG): colour for structure, actions and references only, so keywords and identifiers stay out of the way. Separate ramps for light, dark and print.
 - Callouts, task lists, footnotes, tables, math, diagrams, source code mode, the sidebar — all painted, all from one set of tokens.
-- No remote fonts or icon fonts; the theme renders offline.
+- No remote fonts or icon fonts. The theme renders offline.
 
 `style-test.md` in this repo exercises every element above — the quickest way to see what a release covers, or to check a change of your own.
 
