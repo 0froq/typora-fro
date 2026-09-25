@@ -1,71 +1,300 @@
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+/*
+ * fro — a Typora theme · v0.1.0
+ *
+ * Light-first, VitePress-inspired design. Dark mode follows the system
+ * appearance (prefers-color-scheme) by re-declaring tokens only: every rule
+ * below reads from these variables, so no selector is duplicated per scheme.
+ */
+
+/* ==========================================================================
+   1. Tokens
+   ========================================================================== */
 
 :root {
-  --blur-text-color: rgba(0, 0, 0, 0.4);
-  --code-background-color: rgba(0, 0, 0, 0.05);
-  --quote-background-color: rgba(0, 0, 0, 0.05);
-  --border-color: #a1a4a8;
-  --border-color-hover: #6a737d;
+  color-scheme: light;
+
+  /* typography */
+  --monospace: "SF Mono", "JetBrains Mono", "Fira Code", Menlo, Consolas,
+    "Liberation Mono", monospace;
+  --content-font-size: 14px;
+  --content-line-height: 1.6;
+  --content-width: 800px;
+  --code-font-size: 0.9rem;
+
+  /* surfaces & text */
+  --bg-color: #fff;
   --text-color: #444;
   --text-muted-color: #666;
   --text-faded-color: #999;
-  --a-color: #111;
-  --bg-color: #fff;
   --accent-color: #000;
+  --a-color: #111;
+  --blur-text-color: rgba(0, 0, 0, 0.4);
 
+  --code-background-color: rgba(0, 0, 0, 0.05);
+  --quote-background-color: rgba(0, 0, 0, 0.045);
+  --panel-background-color: rgba(0, 0, 0, 0.03);
+  --hover-background-color: rgba(0, 0, 0, 0.04);
+
+  --border-color: #a1a4a8;
+  --border-color-hover: #6a737d;
+  --hairline-color: #e5e7eb;
+
+  /* Typora chrome hooks: sidebar, outline, footer, dialogs, tooltips */
+  --side-bar-bg-color: #f7f7f8;
+  --control-text-color: #666;
+  --control-text-hover-color: #111;
+  --item-hover-bg-color: rgba(0, 0, 0, 0.05);
+  --item-hover-text-color: var(--text-color);
+  --active-file-bg-color: rgba(0, 0, 0, 0.06);
+  --active-file-text-color: var(--accent-color);
+  --active-file-border-color: #c4c7cb;
+  --window-border: 1px solid var(--hairline-color);
+  --panel-border-color: #d5d7da;
+  --focus-ring-color: #6a737d;
+  --drag-placeholder-color: #c7c5c5;
+  --active-toggle-btn-color: #ddd;
+  --color-popover-bg-color: #fafafa;
+  --primary-color: #111;
+  --primary-btn-border-color: #111;
+  --primary-btn-text-color: #fff;
+  --rawblock-edit-panel-bd: #f5f6f7;
+
+  /* in-document syntax marks */
+  --md-char-color: #b4b8bd;
+  --meta-content-color: #7d8590;
+  --heading-char-color: rgba(0, 0, 0, 0.2);
+  --table-border-color: var(--border-color);
+  --select-text-bg-color: rgba(0, 0, 0, 0.1);
+  --select-text-font-color: inherit;
+  --search-select-bg-color: #111;
+  --search-select-text-color: #fff;
+  --scrollbar-thumb-color: rgba(0, 0, 0, 0.18);
+  --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.32);
+
+  /* callouts */
   --block-note-bg: rgba(25, 134, 255, 0.16);
   --block-tip-bg: rgba(0, 191, 165, 0.16);
   --block-important-bg: rgba(153, 102, 232, 0.16);
-  --block-warning-bg: rgba(234, 179, 8, .16);
-  --block-caution-bg: rgba(244, 63, 94, .16);
+  --block-warning-bg: rgba(234, 179, 8, 0.16);
+  --block-caution-bg: rgba(244, 63, 94, 0.16);
+  --block-note-fg: #0969da;
+  --block-tip-fg: #1a7f37;
+  --block-important-fg: #6639ba;
+  --block-warning-fg: #9a6700;
+  --block-caution-fg: #cf222e;
 
-  --select-text-bg-color: rgba(0, 0, 0, 0.1);
-  /* --select-text-font-color: #000; */
+  /* code syntax tokens — palette from lig.nvim (github.com/0froq/lig.nvim).
+     lig gives colour to four roles only: struct = green, action = orange,
+     ref = blue, and mono = the neutral text ramp, so keywords, identifiers
+     and properties stay uncoloured. */
+  --cm-comment: var(--text-faded-color);
+  --cm-string: var(--text-muted-color);
+  --cm-punctuation: var(--text-muted-color);
+  --cm-keyword: var(--text-color);
+  --cm-header: var(--accent-color);
+  --cm-tag: #599376;
+  --cm-attribute: #6aca9a;
+  --cm-def: #b07659;
+  --cm-number: #6a9afa;
+  --cm-builtin: #5976b0;
+  --cm-regexp: #5976b0;
+  --cm-link: #6a9afa;
+  --cm-error: #b05959;
 
+  /* images */
+  --image-border-color: rgba(0, 0, 0, 0.14);
+  --image-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 8px 20px rgba(0, 0, 0, 0.08);
+
+  /* diagrams */
+  --node-fill: #eef0f3;
 }
 
-#write {
-  max-width: 800px;
-  line-height: 1.6;
-  font-size: 14px;
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
 
+    --bg-color: #1a1d21;
+    --text-color: #d3d6da;
+    --text-muted-color: #a2a8b0;
+    --text-faded-color: #7d848d;
+    --accent-color: #fff;
+    --a-color: #f0f2f5;
+    --blur-text-color: rgba(255, 255, 255, 0.3);
+
+    --code-background-color: rgba(255, 255, 255, 0.07);
+    --quote-background-color: rgba(255, 255, 255, 0.05);
+    --panel-background-color: rgba(255, 255, 255, 0.04);
+    --hover-background-color: rgba(255, 255, 255, 0.06);
+
+    --border-color: #5b626b;
+    --border-color-hover: #8b929b;
+    --hairline-color: #2c3137;
+
+    --side-bar-bg-color: #15181b;
+    --control-text-color: #a2a8b0;
+    --control-text-hover-color: #f0f2f5;
+    --item-hover-bg-color: rgba(255, 255, 255, 0.07);
+    --item-hover-text-color: var(--text-color);
+    --active-file-bg-color: rgba(255, 255, 255, 0.09);
+    --active-file-text-color: var(--accent-color);
+    --active-file-border-color: #6b727b;
+    --panel-border-color: #3a4046;
+    --focus-ring-color: #8b929b;
+    --drag-placeholder-color: #4a5058;
+    --active-toggle-btn-color: #3a4046;
+    --color-popover-bg-color: #21252a;
+    --primary-color: #f0f2f5;
+    --primary-btn-border-color: #f0f2f5;
+    --primary-btn-text-color: #1a1d21;
+    --rawblock-edit-panel-bd: #21252a;
+
+    --md-char-color: #5f6670;
+    --meta-content-color: #7d8590;
+    --heading-char-color: rgba(255, 255, 255, 0.24);
+    --select-text-bg-color: rgba(255, 255, 255, 0.16);
+    --search-select-bg-color: #d3d6da;
+    --search-select-text-color: #1a1d21;
+    --scrollbar-thumb-color: rgba(255, 255, 255, 0.16);
+    --scrollbar-thumb-hover-color: rgba(255, 255, 255, 0.3);
+
+    --block-note-bg: rgba(25, 134, 255, 0.18);
+    --block-tip-bg: rgba(0, 191, 165, 0.16);
+    --block-important-bg: rgba(153, 102, 232, 0.18);
+    --block-warning-bg: rgba(234, 179, 8, 0.16);
+    --block-caution-bg: rgba(244, 63, 94, 0.18);
+    --block-note-fg: #7ee0ff;
+    --block-tip-fg: #5ee6c8;
+    --block-important-fg: #cfaef5;
+    --block-warning-fg: #f5d76e;
+    --block-caution-fg: #ff96a5;
+
+    /* lig.nvim dark ramp: the pure accent for the primary role, the step
+       blended toward the foreground for the softer one. */
+    --cm-comment: var(--text-faded-color);
+    --cm-string: var(--text-muted-color);
+    --cm-punctuation: var(--text-muted-color);
+    --cm-keyword: var(--text-color);
+    --cm-header: var(--accent-color);
+    --cm-tag: #6aca9a;
+    --cm-attribute: #94ceb1;
+    --cm-def: #fa9a6a;
+    --cm-number: #6a9afa;
+    --cm-builtin: #94b1eb;
+    --cm-regexp: #94b1eb;
+    --cm-link: #6a9afa;
+    --cm-error: #fa6a6a;
+
+    /* images */
+    --image-border-color: rgba(255, 255, 255, 0.16);
+    --image-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 10px 26px rgba(0, 0, 0, 0.45);
+
+    --node-fill: #2f343a;
+  }
 }
 
+/* ==========================================================================
+   2. Base layout
+   ========================================================================== */
 
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: var(--content-line-height);
+}
 
 content {
   color: var(--text-color);
 }
 
-content::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+#write {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 2rem 2rem 6rem;
+  font-size: var(--content-font-size);
+  line-height: var(--content-line-height);
 }
 
-content::-webkit-scrollbar-thumb {
-  width: 8px;
-  border-right: 1px solid var(--active-file-border-color);
-  transition: all 0.3s;
+#write > ul:first-child,
+#write > ol:first-child {
+  margin-top: 30px;
 }
 
-content::-webkit-scrollbar-thumb:hover {
-  width: 9px;
-  border-right: none;
-  background-color: var(--active-file-border-color);
-  border-radius: 2px;
+::selection {
+  background-color: var(--select-text-bg-color);
 }
 
-.md-meta-block {
-  opacity: 0.3;
-  padding: 1rem;
-  transition: all 0.3s;
+/* ==========================================================================
+   3. Scrollbars
+   ========================================================================== */
+
+content::-webkit-scrollbar,
+.CodeMirror-scroll::-webkit-scrollbar,
+#typora-source .CodeMirror-vscrollbar,
+#typora-source .CodeMirror-hscrollbar,
+#outline-content::-webkit-scrollbar,
+#file-library-list::-webkit-scrollbar,
+.dropdown-menu::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
 }
 
-.md-meta-block:hover {
-  opacity: 1;
+content::-webkit-scrollbar-thumb,
+.CodeMirror-scroll::-webkit-scrollbar-thumb,
+#outline-content::-webkit-scrollbar-thumb,
+#file-library-list::-webkit-scrollbar-thumb,
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 4px;
+  transition: background-color 0.25s ease;
+}
+
+content:hover::-webkit-scrollbar-thumb,
+.CodeMirror-scroll:hover::-webkit-scrollbar-thumb,
+#outline-content:hover::-webkit-scrollbar-thumb,
+#file-library-list:hover::-webkit-scrollbar-thumb,
+.dropdown-menu:hover::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-color);
+}
+
+content::-webkit-scrollbar-thumb:hover,
+.CodeMirror-scroll::-webkit-scrollbar-thumb:hover,
+#outline-content::-webkit-scrollbar-thumb:hover,
+#file-library-list::-webkit-scrollbar-thumb:hover,
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover-color);
+}
+
+content::-webkit-scrollbar-track,
+.CodeMirror-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ==========================================================================
+   4. Headings & rules
+   ========================================================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  position: relative;
+  margin: 1.6em 0 0.6em;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--accent-color);
+  cursor: text;
 }
 
 h1 {
+  margin-top: 0.8em;
   font-size: 2.5rem;
   text-align: center;
 }
@@ -88,197 +317,705 @@ h5 {
 
 h6 {
   font-size: 1rem;
+  color: var(--text-muted-color);
 }
 
-:is(h2, h3, h4, h5, h6)::before {
-  /* paragraph symbol */
+/* Absolute, and in the same slot Typora uses for its focused-heading badge,
+   so the marker never shifts the text or jumps when the heading is focused. */
+h2::before,
+h3::before,
+h4::before,
+h5::before,
+h6::before {
   content: "#";
-  margin-right: 0.5rem;
-  color: var(--blur-text-color);
+  position: absolute;
+  left: -1.6rem;
+  color: var(--heading-char-color);
+  font-weight: 400;
 }
 
-pre.ty-contain-cm {
-  max-width: 90%;
-  margin: 2rem auto;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  page-break-inside: avoid;
-}
-
-pre .CodeMirror {
-  page-break-inside: avoid;
-}
-
-pre .CodeMirror-scroll {
-  border-radius: 5px;
-  overflow-x: auto;
-  background-color: var(--code-background-color);
-  page-break-inside: avoid;
-}
-
-pre .CodeMirror-sizer {
-}
-
-pre .CodeMirror-code {
-}
-
-pre .CodeMirror-lines {
-  margin: 1rem;
-  page-break-inside: avoid;
-}
-
-pre .CodeMirror-scroll::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-pre .CodeMirror-scroll::-webkit-scrollbar-thumb {
-  height: 8px;
-  border-bottom: 1px solid var(--active-file-border-color);
-  transition: all 0.3s;
-}
-
-pre .CodeMirror-scroll::-webkit-scrollbar-thumb:hover {
-  height: 9px;
-  border-bottom: none;
-  background-color: var(--active-file-border-color);
-  border-radius: 2px;
-}
-
-pre .CodeMirror-gutters {
-  height: 100% !important;
+#write :is(h1, h2, h3, h4, h5, h6) code {
+  font-size: inherit;
+  color: inherit;
   background-color: transparent;
 }
 
-pre .CodeMirror-gutter {
+#write hr {
+  height: 1px;
+  margin: 2.4em auto;
+  border: none;
+  background-color: var(--hairline-color);
 }
 
-pre .CodeMirror-linenumber {
-  padding-right: 0.5rem;
-  width: 2rem !important;
-  text-align: center;
-  left: -5px !important;
+/* ==========================================================================
+   5. Block text & inline marks
+   ========================================================================== */
 
+p,
+ul,
+ol,
+dl,
+table,
+.md-math-block,
+.md-rawblock {
+  margin: 1em 0;
 }
 
-.code-tooltip.md-tooltip-remove {
-  border: 1px solid var(--active-file-border-color);
-  border-radius: 5px;
-
+li > p {
+  margin: 0.2em 0;
 }
 
-blockquote {
-  margin: 16px auto;
-  padding: 20px 30px;
-  background-color: var(--quote-background-color);
-  border-radius: 4px;
-  border-left: 4px solid var(--text-muted-color);
-  transition: all 0.2s ease;
-  position: relative;
-  z-index: 0;
+li > ul,
+li > ol {
+  margin: 0.2em 0;
 }
 
-blockquote > :is(p, ol, ul, pre, table):first-child::before {
-  content: "format_quote";
-  font-family: "Material Icons";
-  position: absolute;
-  display: block;
-  top: -30px;
-  right: -20px;
-  font-size: 2.4rem;
-  color: var(--text-muted-color);
-  opacity: 0.2;
-}
-
-blockquote:hover {
-  border-left: 4px solid var(--text-color);
-}
-
-#write code {
-  padding: 2px 4px;
-  font-size: 0.9em;
-  color: var(--text-muted-color);
-  background-color: var(--code-background-color);
-  border-radius: 4px;
-}
-
-#write p strong {
+strong {
   font-weight: 600;
   color: var(--accent-color);
 }
-#write p u {
+
+del,
+s {
+  color: var(--text-faded-color);
+}
+
+u {
   text-underline-offset: 3px;
 }
-#write p mark {
+
+mark {
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
   background-color: var(--accent-color);
   color: var(--bg-color);
-  padding: 2px 4px;
+}
+
+kbd {
+  padding: 0.05em 0.4em;
+  border: 1px solid var(--panel-border-color);
+  border-bottom-width: 2px;
   border-radius: 4px;
+  background-color: var(--panel-background-color);
+  /* base.css hardcodes `color:#242729` plus a white inset ring, which together
+     turn the chip into an empty box once the page goes dark. */
+  box-shadow: none;
+  color: var(--text-color);
+  font-family: var(--monospace);
+  font-size: 0.85em;
 }
 
-.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) mark span {
-  background-color: var(--accent-color);
-  color: var(--bg-color) !important;
+#write a {
+  color: var(--a-color);
+  text-decoration: underline;
+  text-decoration-color: var(--border-color);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s ease;
 }
 
-#write p sup {
+#write a:hover {
+  text-decoration-color: var(--a-color);
+}
+
+/* markdown syntax characters inside prose */
+#write .md-meta,
+#write .md-tag,
+#write .md-blockmeta {
+  color: var(--md-char-color);
+  font-family: var(--monospace);
+}
+
+/* base.css gives block meta bold italic #CCC, which reads as a bright smudge
+   on a dark page. */
+#write .md-blockmeta {
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* HTML comments ship as amber at 60% opacity — off palette in both schemes */
+#write .md-comment {
+  color: var(--text-faded-color);
+  opacity: 1;
+}
+
+#write .md-link .md-url,
+#write .md-hover-tip .md-url {
+  color: var(--meta-content-color);
+}
+
+/* ==========================================================================
+   6. Superscript, footnotes & definitions
+   ========================================================================== */
+
+/* `^text^` reads as a note marker, so bracket it; real footnotes get the pill
+   below instead of brackets. */
+#write sup {
+  top: -0.4em;
   font-size: 0.8em;
   line-height: 1;
-  top: -0.5em;
-  background-color: transparent;
 }
 
-#write p sup::before {
+#write sup:not(.md-footnote)::before {
   content: "[";
-  position: relative;
 }
 
-#write p sup::after {
+#write sup:not(.md-footnote)::after {
   content: "]";
-  position: relative;
 }
 
-#write p sup.md-expand::after,
-#write p sup.md-expand::before {
+#write sup:not(.md-footnote).md-expand::before,
+#write sup:not(.md-footnote).md-expand::after {
   display: none;
 }
 
-#write p ul li::marker, content p ol li::marker {
+sup.md-footnote {
+  margin: 0 0.15ch;
+  padding: 0 0.45em;
+  border-radius: 999px;
+  background-color: var(--code-background-color);
+  color: var(--text-muted-color);
+  font-size: 0.75em;
+  font-weight: 600;
+}
+
+sup.md-footnote a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#write .md-def-link,
+#write .md-def-footnote {
+  margin: 0.3em 0;
+  padding: 0.4em 0.8em 0.4em 1.1em;
+  border-left: 3px solid var(--text-muted-color);
+  color: var(--text-muted-color);
+  font-size: 0.9em;
+}
+
+#write .md-def-name,
+#write .md-def-split {
+  color: var(--meta-content-color);
+}
+
+/* Typora parks the generated brackets at the box edges with 2ch/2.5ch padding,
+   so the number floats in the middle of a gap; letting them flow keeps
+   `[^1] :` reading as one marker. */
+#write .md-def-name {
+  padding: 0;
+}
+
+#write .md-def-name::before,
+#write .md-def-name::after {
+  position: static;
+}
+
+/* Typora's `.md-def-name:before` hardcodes #C7C5C5 with no `var(--md-char-color)`
+   twin (only `:after` has one), so the opening `[^` ignores the theme and glares
+   on a dark page; the empty-content placeholder is hardcoded #ddd for the same
+   reason. */
+#write .md-def-name::before,
+#write .md-def-content > span:first-child:empty::after {
+  color: var(--md-char-color);
+}
+
+#write .md-def-url {
+  color: var(--md-char-color);
+}
+
+#write .md-def-title {
+  color: var(--text-muted-color);
+  font-weight: 600;
+}
+
+/* `.md-reverse-footnote-area` is the inline span holding the ↩ links, so the
+   section divider belongs on the container only. */
+#write .footnotes {
+  margin-top: 2.5em;
+  padding-top: 1em;
+  border-top: 1px solid var(--hairline-color);
+  color: var(--text-muted-color);
+  font-size: 0.92em;
+}
+
+/* base.css hardcodes #888 on the wrapper around the definition rows */
+#write .footnotes-area {
+  color: var(--text-muted-color);
+}
+
+/* ==========================================================================
+   7. Lists & task lists
+   ========================================================================== */
+
+ul,
+ol {
+  padding-left: 1.6em;
+}
+
+#write li::marker {
   color: var(--accent-color);
 }
 
-#write p a {
-  color: var(--a-color);
-  text-decoration-color: var(--text-color);
-  text-underline-offset: 3px;
+.md-task-list-item {
+  list-style-type: none;
 }
 
-#write table {
-  margin: 16px auto;
-  border-collapse: collapse;
-  width: 100%;
+/* base.css sets `#write input[type=checkbox]{width:inherit}`, so the box needs
+   at least an ID-level selector or appearance:none leaves nothing to see. */
+#write .md-task-list-item > input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  top: 0.35em;
+  left: -1.6em;
+  margin-top: 0;
+  margin-left: 0;
+  width: 1.05em;
+  height: 1.05em;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  background-color: var(--bg-color);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+#write .md-task-list-item > input[type="checkbox"]:hover {
+  border-color: var(--border-color-hover);
+}
+
+/* inline SVG check glyph: no icon font, so offline and export stay intact */
+#write .md-task-list-item > input[type="checkbox"]:checked {
+  border-color: var(--accent-color);
+  background-color: var(--accent-color);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23ffffff' d='M13.2 4.3 6.5 11 2.8 7.3l1-1 2.7 2.7 5.7-5.7z'/%3E%3C/svg%3E");
+  background-size: 0.95em;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* --accent-color inverts in dark mode, so the glyph has to invert with it. */
+@media (prefers-color-scheme: dark) {
+  #write .md-task-list-item > input[type="checkbox"]:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%231a1d21' d='M13.2 4.3 6.5 11 2.8 7.3l1-1 2.7 2.7 5.7-5.7z'/%3E%3C/svg%3E");
+  }
+}
+
+/* Done items fade rather than strike through; the reset keeps nested items readable. */
+#write .md-task-list-item.task-list-done {
+  color: var(--text-faded-color);
+}
+
+#write .md-task-list-item.task-list-not-done {
+  color: var(--text-color);
+}
+
+/* ==========================================================================
+   8. Blockquotes & callouts
+   ========================================================================== */
+
+blockquote {
+  position: relative;
+  z-index: 0;
+  margin: 1.2em 0;
+  padding: 1.4em 2.1em;
+  border-left: 4px solid var(--text-muted-color);
+  border-radius: 3px;
+  /* Translucent so a nested quote stacks one visible step darker. */
+  background-color: var(--quote-background-color);
+  color: var(--text-muted-color);
+  transition: border-color 0.2s ease;
+}
+
+blockquote:hover {
+  border-left-color: var(--text-color);
+}
+
+blockquote > :first-child {
+  margin-top: 0;
+}
+
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* Callouts are blockquotes in Typora's DOM; they get their own header, not the
+   decorative quote mark. */
+blockquote:not(.md-alert) > :is(p, ol, ul, pre, table):first-child::after {
+  content: "\201D";
+  position: absolute;
+  top: 0.1em;
+  right: 0.4em;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 4em;
+  line-height: 1;
+  color: var(--text-muted-color);
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+#write .md-alert {
+  margin: 1.2em 0;
+  padding: 0.7em 2.1em;
+  border-left: none;
   border-radius: 4px;
-  overflow: hidden;
+  background-color: transparent;
+  color: var(--text-color);
   page-break-inside: avoid;
 }
 
-#write table thead {
-  border-bottom: 2px solid var(--border-color);
+#write .md-alert .md-alert-text {
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
-#write table tbody {
+#write .md-alert > :last-child {
+  margin-bottom: 0;
+}
+
+#write .md-alert.md-alert-note {
+  background-color: var(--block-note-bg);
+}
+
+#write .md-alert.md-alert-note .md-alert-text {
+  color: var(--block-note-fg);
+}
+
+#write .md-alert.md-alert-tip {
+  background-color: var(--block-tip-bg);
+}
+
+#write .md-alert.md-alert-tip .md-alert-text {
+  color: var(--block-tip-fg);
+}
+
+#write .md-alert.md-alert-important {
+  background-color: var(--block-important-bg);
+}
+
+#write .md-alert.md-alert-important .md-alert-text {
+  color: var(--block-important-fg);
+}
+
+#write .md-alert.md-alert-warning {
+  background-color: var(--block-warning-bg);
+}
+
+#write .md-alert.md-alert-warning .md-alert-text {
+  color: var(--block-warning-fg);
+}
+
+#write .md-alert.md-alert-caution {
+  background-color: var(--block-caution-bg);
+}
+
+#write .md-alert.md-alert-caution .md-alert-text {
+  color: var(--block-caution-fg);
+}
+
+/* ==========================================================================
+   9. Inline code
+   ========================================================================== */
+
+#write code,
+#write tt {
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  background-color: var(--code-background-color);
+  color: var(--text-muted-color);
+  font-family: var(--monospace);
+  font-size: 0.88em;
+}
+
+/* ==========================================================================
+   10. Code fences
+   ========================================================================== */
+
+#write .md-fences {
+  max-width: 90%;
+  margin: 1.4em auto;
+  padding: 0.9em 1em;
+  border-radius: 5px;
+  background-color: var(--code-background-color);
+  color: var(--text-color);
+  font-family: var(--monospace);
+  font-size: var(--code-font-size);
+  line-height: 1.6;
+  text-align: left;
+  page-break-inside: avoid;
+}
+
+#write .md-fences .CodeMirror {
+  height: auto;
+  background: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+#write .md-fences .CodeMirror-scroll,
+#write .md-fences .CodeMirror-sizer,
+#write .md-fences .CodeMirror-lines,
+#write .md-fences .CodeMirror-code,
+#write .md-fences .CodeMirror pre {
+  background: transparent;
+}
+
+#write .md-fences .CodeMirror-lines {
+  padding: 0;
+}
+
+#write .md-fences .CodeMirror-gutters {
+  border-right: none;
+  background: transparent;
+}
+
+#write .md-fences .CodeMirror-linenumber {
+  min-width: 2.5ch;
+  padding-right: 0.8em;
+  color: var(--text-faded-color);
+  font-family: inherit;
+  font-size: 0.9em;
+}
+
+.cm-s-inner .CodeMirror-cursor {
+  border-left-color: var(--accent-color);
+}
+
+.cm-s-inner .CodeMirror-selected,
+.cm-s-inner.CodeMirror-focused .CodeMirror-selected {
+  background-color: var(--select-text-bg-color);
+}
+
+/* language picker / copy bar */
+.md-fences .code-tooltip {
+  overflow: hidden;
+  border: 1px solid var(--panel-border-color);
+  border-radius: 5px;
   background-color: var(--bg-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.md-fences .code-tooltip input,
+.md-fences .code-tooltip .ty-cm-lang-input {
+  color: var(--text-color);
+  font-family: var(--monospace);
+}
+
+.md-fences-adv-panel {
+  border-top: 1px solid var(--panel-border-color);
+  background-color: var(--panel-background-color);
+}
+
+/* tokens — grouped the way lig.nvim groups its Vim highlight groups */
+.cm-s-inner .cm-comment {
+  color: var(--cm-comment);
+  font-style: italic;
+}
+
+/* lig paints quotes with the text colour, not the comment colour */
+.cm-s-inner .cm-quote {
+  color: var(--cm-keyword);
+  font-style: italic;
+}
+
+.cm-s-inner .cm-keyword,
+.cm-s-inner .cm-variable,
+.cm-s-inner .cm-variable-2,
+.cm-s-inner .cm-variable-3,
+.cm-s-inner .cm-property {
+  color: var(--cm-keyword);
+}
+
+.cm-s-inner .cm-operator,
+.cm-s-inner .cm-bracket {
+  color: var(--cm-punctuation);
+}
+
+.cm-s-inner .cm-string {
+  color: var(--cm-string);
+}
+
+/* string-2 is regex / escape / special in CodeMirror, i.e. lig's ref[1] */
+.cm-s-inner .cm-string-2 {
+  color: var(--cm-regexp);
+}
+
+.cm-s-inner .cm-number,
+.cm-s-inner .cm-atom {
+  color: var(--cm-number);
+}
+
+.cm-s-inner .cm-def {
+  color: var(--cm-def);
+}
+
+.cm-s-inner .cm-builtin,
+.cm-s-inner .cm-qualifier {
+  color: var(--cm-builtin);
+}
+
+.cm-s-inner .cm-tag,
+.cm-s-inner .cm-meta {
+  color: var(--cm-tag);
+}
+
+.cm-s-inner .cm-attribute {
+  color: var(--cm-attribute);
+}
+
+.cm-s-inner .cm-link,
+.cm-s-inner .cm-url {
+  color: var(--cm-link);
+  text-decoration: underline;
+}
+
+.cm-s-inner .cm-header,
+.cm-s-inner .cm-header1,
+.cm-s-inner .cm-header2,
+.cm-s-inner .cm-strong {
+  color: var(--cm-header);
+  font-weight: 600;
+}
+
+.cm-s-inner .cm-em {
+  font-style: italic;
+}
+
+.cm-s-inner .cm-strikethrough {
+  text-decoration: line-through;
+}
+
+.cm-s-inner .cm-hr {
+  color: var(--cm-comment);
+}
+
+.cm-s-inner .cm-error {
+  color: var(--cm-error);
+}
+
+.cm-s-inner .cm-search-hit {
+  background-color: var(--search-select-bg-color);
+  color: var(--search-select-text-color);
+}
+
+/* ==========================================================================
+   11. Source code mode
+   ========================================================================== */
+
+#typora-source {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+#typora-source .CodeMirror {
+  font-family: var(--monospace);
+  font-size: 0.88rem;
+  line-height: 1.75;
+}
+
+#typora-source .CodeMirror-lines {
+  max-width: var(--content-width);
+  padding-top: 2rem;
+  padding-bottom: 6rem;
+}
+
+#typora-source .CodeMirror-gutter-wrapper {
+  font-size: 0.75rem;
+  color: var(--text-faded-color);
+}
+
+#typora-source .CodeMirror-cursor {
+  border-left-color: var(--accent-color);
+}
+
+#typora-source .CodeMirror-selected {
+  background-color: var(--select-text-bg-color);
+}
+
+.cm-s-typora-default .CodeMirror-activeline-background {
+  left: -1rem;
+  right: -1rem;
+  background-color: var(--hover-background-color);
+}
+
+.cm-s-typora-default .cm-header,
+.cm-s-typora-default .cm-property {
+  color: var(--cm-header);
+  font-weight: 600;
+}
+
+/* keep heading marks monospaced so raw text holds its column width */
+.cm-s-typora-default .cm-header1:not(.cm-atom),
+.cm-s-typora-default .cm-header2:not(.cm-atom),
+.cm-s-typora-default .cm-header3:not(.cm-atom),
+.cm-s-typora-default .cm-header4:not(.cm-atom),
+.cm-s-typora-default .cm-header5:not(.cm-atom),
+.cm-s-typora-default .cm-header6:not(.cm-atom) {
+  font-size: 1em;
+}
+
+.cm-s-typora-default .cm-code,
+.cm-s-typora-default .cm-comment {
+  color: var(--cm-comment);
+}
+
+.cm-s-typora-default .cm-string {
+  color: var(--cm-string);
+}
+
+.cm-s-typora-default .cm-tag {
+  color: var(--cm-tag);
+}
+
+.cm-s-typora-default .cm-link {
+  color: var(--cm-link);
+}
+
+.cm-s-typora-default .cm-atom,
+.cm-s-typora-default .cm-number {
+  color: var(--cm-number);
+}
+
+.cm-s-typora-default .cm-block-start,
+.cm-s-typora-default .cm-table-row,
+.cm-s-typora-default .cm-overlay {
+  font-family: var(--monospace);
+}
+
+.cm-s-typora-default .cm-overlay {
+  color: var(--md-char-color);
+}
+
+/* ==========================================================================
+   12. Tables
+   ========================================================================== */
+
+/* Per-column alignment comes from the `:---:` markers, so no text-align here. */
+#write table {
+  width: 100%;
+  margin: 1.4em 0;
+  border-collapse: collapse;
+  font-size: 0.95em;
+  page-break-inside: avoid;
+  word-break: normal;
+}
+
+#write table thead {
+  border-bottom: 2px solid var(--table-border-color);
 }
 
 #write table th {
-  padding: 10px;
+  padding: 0.55em 0.8em;
+  color: var(--accent-color);
   font-weight: 600;
-  text-align: center !important;
 }
 
 #write table td {
-  padding: 10px;
-  border-bottom: 1px solid var(--border-color);
+  padding: 0.5em 0.8em;
+  border-bottom: 1px solid var(--hairline-color);
+}
+
+#write table tr:last-child td {
+  border-bottom: none;
 }
 
 #write table th p,
@@ -286,46 +1023,547 @@ blockquote:hover {
   margin: 0;
 }
 
-#write .md-alert {
-  margin: 16px auto;
-  padding: 10px 30px;
+.md-table-resize-popover {
+  border: 1px solid var(--panel-border-color);
+  border-radius: 5px;
+  background-color: var(--color-popover-bg-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.md-table-resize-popover .popover-content {
+  color: var(--text-muted-color);
+}
+
+/* ==========================================================================
+   13. Images, media & figures
+   ========================================================================== */
+
+/* Screenshots are mostly white, which disappears into a dark page, so every
+   image gets an outline and a soft drop shadow. */
+#write img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--image-border-color);
   border-radius: 4px;
-  border-left: none;
+  box-shadow: var(--image-shadow);
+}
+
+/* Typora has no caption syntax for images — `![alt](src "title")` only feeds a
+   tooltip, so an inline-HTML `<figure>` is the sole route (its sanitizer does
+   allow figure/figcaption, but they render only with 渲染 HTML 标签 turned on).
+   Rendered HTML blocks land in `.md-htmlblock-container`, which keeps this away
+   from Typora's own table wrapper `figure.md-table-fig`. */
+#write .md-htmlblock-container figure {
+  margin: 1.4em 0;
+  text-align: center;
+}
+
+#write .md-htmlblock-container figure > img {
+  display: block;
+  margin: 0 auto;
+}
+
+#write figcaption {
+  display: block;
+  margin-top: 0.6em;
+  color: var(--text-muted-color);
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.md-image > .md-meta {
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  background-color: var(--code-background-color);
+  color: var(--meta-content-color);
+  font-family: var(--monospace);
+  font-size: 0.85em;
+}
+
+.md-img-error,
+.md-video-load-failed {
+  border: 1px dashed var(--border-color);
+  color: var(--text-faded-color);
+}
+
+.md-image-uploading-mask {
+  background-color: var(--bg-color);
+  color: var(--text-faded-color);
+}
+
+.md-frame,
+.md-iframe {
+  overflow: hidden;
+  border: 1px solid var(--hairline-color);
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   14. Math
+   ========================================================================== */
+
+#write .md-math-block {
+  margin: 1.4em 0;
+  padding: 0.4em 0;
+  text-align: center;
   page-break-inside: avoid;
 }
 
-#write .md-alert.md-alert-note {
-  background-color: var(--block-note-bg);
+#write .md-math-container,
+#write .md-mathjax-preview {
+  font-size: 0.95em;
 }
 
-#write .md-alert.md-alert-tip {
-  background-color: var(--block-tip-bg);
+#write .md-inline-math {
+  padding: 0 0.15em;
+  color: var(--text-color);
 }
 
-#write .md-alert.md-alert-important {
-  background-color: var(--block-important-bg);
+.md-math-block .code-tooltip {
+  border-color: var(--panel-border-color);
+  background-color: var(--panel-background-color);
 }
 
-#write .md-alert.md-alert-warning {
-  background-color: var(--block-warning-bg);
+.md-mathjax-midline {
+  background-color: var(--panel-background-color);
 }
 
-#write .md-alert.md-alert-caution {
-  background-color: var(--block-caution-bg);
+/* ==========================================================================
+   15. Diagrams (mermaid)
+   ========================================================================== */
+
+#write .md-diagram-panel {
+  margin: 0.4em 0;
+  text-align: center;
 }
 
-.md-toc {
-  margin: 2rem auto;
+#write .md-diagram-panel svg {
+  max-width: 100%;
 }
 
-a.md-toc-inner {
-  font-size: 1.2rem;
+#write .md-diagram-panel-error {
+  color: var(--block-caution-fg);
+  font-family: var(--monospace);
+  font-size: 0.8em;
+  text-align: left;
+  white-space: pre-line;
 }
 
-.md-toc .md-toc-tooltip {
-  display: block !important;
+/* ==========================================================================
+   16. Raw HTML blocks & details
+   ========================================================================== */
+
+#write .md-htmlblock {
+  margin: 1.2em 0;
 }
 
-.md-toc .md-toc-tooltip span {
-  font-size: 1.5rem;
+#write .md-rawblock-panel,
+#write .md-htmlblock-panel-placeholder {
+  border-radius: 4px;
+  background-color: var(--rawblock-edit-panel-bd);
+  color: var(--text-color);
+  font-family: var(--monospace);
+  font-size: 0.88rem;
+}
+
+#write .md-rawblock-tooltip {
+  border: 1px solid var(--panel-border-color);
+  border-radius: 5px;
+  background-color: var(--bg-color);
+  color: var(--text-muted-color);
+}
+
+#write details {
+  margin: 1.2em 0;
+  padding: 0.6em 1em;
+  border: 1px solid var(--hairline-color);
+  border-radius: 4px;
+  background-color: var(--panel-background-color);
+}
+
+#write summary {
+  cursor: pointer;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   17. YAML front matter
+   ========================================================================== */
+
+#write pre.md-meta-block {
+  margin: 0 0 2.4em !important;
+  padding: 0.9em 0;
+  border: none;
+  border-top: 1px solid var(--hairline-color);
+  border-bottom: 1px solid var(--hairline-color);
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--text-faded-color);
+  font-family: var(--monospace);
+  font-size: 0.8em;
+  line-height: 1.75;
+  opacity: 0.8;
+  transition: opacity 0.25s ease;
+}
+
+#write pre.md-meta-block:hover,
+#write pre.md-meta-block.md-focus {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   18. Table of contents
+   ========================================================================== */
+
+#write .md-toc {
+  margin: 1.6em 0;
+  padding: 1em 1.4em;
+  border: 1px solid var(--hairline-color);
+  border-radius: 5px;
+  background-color: var(--panel-background-color);
+  font-size: 0.95em;
+  page-break-inside: avoid;
+}
+
+#write .md-toc .md-toc-item {
+  color: var(--text-muted-color);
+}
+
+#write .md-toc .md-toc-inner {
+  color: inherit;
+  font-size: inherit;
+  text-decoration: none;
+}
+
+#write .md-toc .md-toc-h2 .md-toc-inner {
+  padding-left: 0.9em;
+}
+
+#write .md-toc .md-toc-h3 .md-toc-inner {
+  padding-left: 1.8em;
+}
+
+#write .md-toc .md-toc-h4 .md-toc-inner {
+  padding-left: 2.7em;
+}
+
+#write .md-toc .md-toc-h5 .md-toc-inner {
+  padding-left: 3.6em;
+}
+
+#write .md-toc .md-toc-inner:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+#write .md-toc .md-toc-tooltip {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+#write .md-toc:hover .md-toc-tooltip {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   19. Search hits
+   ========================================================================== */
+
+#write .md-search-hit {
+  border-radius: 2px;
+  background-color: var(--search-select-bg-color);
+  color: var(--search-select-text-color);
+}
+
+#write .md-search-select {
+  background-color: var(--search-select-bg-color);
+  color: var(--search-select-text-color);
+}
+
+/* ==========================================================================
+   20. Focus & typewriter modes
+   ========================================================================== */
+
+/* Typora dims unfocused blocks through --blur-text-color; the decorations this
+   theme adds have to dim along with them. */
+.on-focus-mode h2::before,
+.on-focus-mode h3::before,
+.on-focus-mode h4::before,
+.on-focus-mode h5::before,
+.on-focus-mode h6::before {
+  color: var(--blur-text-color);
+}
+
+.on-focus-mode blockquote {
+  border-left-color: var(--blur-text-color);
+}
+
+.on-focus-mode blockquote > :is(p, ol, ul, pre, table):first-child::after {
+  color: var(--blur-text-color);
+}
+
+.on-focus-mode .md-alert {
+  border-left-color: transparent;
+}
+
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) mark {
+  background-color: var(--blur-text-color);
+  color: var(--bg-color);
+}
+
+.on-focus-mode .md-focus,
+.on-focus-mode .md-focus-container {
+  color: var(--text-color);
+}
+
+/* ==========================================================================
+   21. Sidebar, outline & window chrome
+   ========================================================================== */
+
+#typora-sidebar,
+.mac-seamless-mode #typora-sidebar {
+  background-color: var(--side-bar-bg-color);
+}
+
+.outline-item {
+  color: var(--text-muted-color);
+  font-size: 0.92em;
+}
+
+.outline-item:hover {
+  color: var(--control-text-hover-color);
+  background-color: var(--item-hover-bg-color);
+}
+
+.outline-item-active,
+.outline-item-active:hover {
+  color: var(--accent-color);
+  font-weight: 600;
+  background-color: var(--active-file-bg-color);
+}
+
+.outline-label:hover {
+  text-decoration: none;
+}
+
+#outline-btn:hover {
+  color: var(--control-text-hover-color);
+}
+
+.file-list-item,
+.file-node-content {
+  color: var(--text-muted-color);
+}
+
+.file-list-item.active,
+.file-node-content:hover {
+  color: var(--active-file-text-color);
+}
+
+.sidebar-tabs {
+  border-bottom: none;
+}
+
+footer.ty-footer {
+  border-top: 1px solid var(--hairline-color);
+}
+
+header,
+#top-titlebar {
+  color: var(--control-text-color);
+}
+
+#typora-quick-open {
+  border: 1px solid var(--panel-border-color);
+  border-radius: 6px;
+  background-color: var(--bg-color);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+}
+
+#typora-quick-open-item {
+  border: none;
+  background-color: transparent;
+}
+
+#typora-quick-open-item:hover,
+#typora-quick-open-item.active {
+  background-color: var(--item-hover-bg-color);
+  color: var(--item-hover-text-color);
+}
+
+#md-searchpanel {
+  border-bottom: 1px solid var(--hairline-color);
+}
+
+.context-menu,
+.dropdown-menu {
+  border: 1px solid var(--panel-border-color);
+  border-radius: 6px;
+  background-color: var(--color-popover-bg-color);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+}
+
+.dropdown-menu > li > a {
+  color: var(--text-color);
+}
+
+.dropdown-menu .divider {
+  border-color: var(--hairline-color);
+  opacity: 1;
+}
+
+.popover {
+  background-color: var(--color-popover-bg-color);
+}
+
+.ty-preferences .window-content {
+  background-color: var(--bg-color);
+}
+
+.ty-preferences .nav-group-item.active {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+}
+
+#md-notification .btn {
+  border: 0;
+}
+
+/* ==========================================================================
+   22. Print & export
+   ========================================================================== */
+
+@media print {
+  /* Paper is always light: pin the tokens so a dark system appearance cannot
+     put white text on white paper. */
+  :root {
+    --content-font-size: 12pt;
+
+    --bg-color: #fff;
+    --text-color: #000;
+    --text-muted-color: #333;
+    --text-faded-color: #666;
+    --accent-color: #000;
+    --a-color: #000;
+    --blur-text-color: rgba(0, 0, 0, 0.4);
+
+    --code-background-color: #f5f5f5;
+    --quote-background-color: #f7f7f7;
+    --panel-background-color: #fafafa;
+    --hover-background-color: #f2f2f2;
+
+    --border-color: #999;
+    --border-color-hover: #666;
+    --hairline-color: #ddd;
+    --panel-border-color: #ddd;
+    --table-border-color: #999;
+    --rawblock-edit-panel-bd: #f5f5f5;
+    --color-popover-bg-color: #fff;
+
+    --md-char-color: #aaa;
+    --meta-content-color: #777;
+    --heading-char-color: rgba(0, 0, 0, 0.2);
+
+    --block-note-fg: #0969da;
+    --block-tip-fg: #1a7f37;
+    --block-important-fg: #6639ba;
+    --block-warning-fg: #9a6700;
+    --block-caution-fg: #cf222e;
+
+    /* Same lig.nvim roles as the light scheme; the neutrals follow the
+       high-contrast print ramp instead. */
+    --cm-comment: var(--text-faded-color);
+    --cm-string: var(--text-muted-color);
+    --cm-punctuation: var(--text-muted-color);
+    --cm-keyword: var(--text-color);
+    --cm-header: var(--accent-color);
+    --cm-tag: #40795c;
+    --cm-attribute: #599376;
+    --cm-def: #965c40;
+    --cm-number: #405c96;
+    --cm-builtin: #405c96;
+    --cm-regexp: #405c96;
+    --cm-link: #405c96;
+    --cm-error: #964040;
+
+    /* Shadows are ink smudges on paper; keep only the outline. */
+    --image-border-color: rgba(0, 0, 0, 0.28);
+    --image-shadow: none;
+
+    --node-fill: #eee;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  #write {
+    max-width: 100%;
+    padding: 0;
+    color: #000;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #000;
+    page-break-after: avoid;
+  }
+
+  h2::before,
+  h3::before,
+  h4::before,
+  h5::before,
+  h6::before,
+  blockquote > :is(p, ol, ul, pre, table):first-child::after {
+    content: none;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  img,
+  table,
+  .md-fences,
+  .md-alert,
+  blockquote {
+    page-break-inside: avoid;
+  }
+
+  .md-fences,
+  #write code {
+    border: 1px solid var(--hairline-color);
+  }
+
+  /* A filled accent square wastes ink and its glyph vanishes when backgrounds
+     are dropped, so print draws an outlined box with a dark tick. */
+  #write .md-task-list-item > input[type="checkbox"] {
+    border: 1px solid #000;
+    background-color: #fff;
+  }
+
+  #write .md-task-list-item > input[type="checkbox"]:checked {
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23000000' d='M13.2 4.3 6.5 11 2.8 7.3l1-1 2.7 2.7 5.7-5.7z'/%3E%3C/svg%3E");
+  }
+}
+
+/* Exported HTML/PDF keeps the marks the editor needs but not the chrome. */
+.typora-export :is(h2, h3, h4, h5, h6)::before,
+.typora-export blockquote > :is(p, ol, ul, pre, table):first-child::after,
+.typora-export .md-fences .code-tooltip,
+.typora-export .md-toc-tooltip,
+.typora-export .md-rawblock-tooltip {
+  display: none !important;
+}
+
+.typora-export #write {
+  max-width: 860px;
+  padding: 2rem 1rem;
 }

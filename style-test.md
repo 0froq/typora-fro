@@ -15,13 +15,15 @@ title: "fro theme · style test"
 
 ###### H6 · Heading Six
 
-A paragraph with **bold**, *italic*, ***both***, ~~strikethrough~~, ==highlight==, ++underline++, `inline code`, and a <kbd>⌘</kbd> + <kbd>K</kbd> shortcut. Here is a [link](https://fro-blo.com), an autolink <https://github.com/0froq/typora-fro>, and a footnote reference[^1]. Superscript^note^ and subscript~sub~ too.
+A paragraph with **bold**, *italic*, ***both***, ~~strikethrough~~, ==highlight==, <u>underline</u> (`++text++` is not Typora syntax), `inline code`, and a <kbd>⌘</kbd> + <kbd>K</kbd> shortcut. Here is a [link](https://fro-blo.com), an autolink <https://github.com/0froq/typora-fro>, and a footnote reference[^1]. Superscript^note^ and subscript~sub~ too.
 
 [^1]: Footnotes have their own rendering. Keep this entry long enough to check how wrapped lines align inside the note body.
 
 Second paragraph, to see vertical rhythm between blocks.
 
 ## Inline & block emphasis
+
+> What if this is a looooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooog line?
 
 > A blockquote with a paragraph.
 >
@@ -40,14 +42,15 @@ Second paragraph, to see vertical rhythm between blocks.
 > [!note]
 > A note callout with a title on its own line.
 
-> [!tip] Tip
+> [!tip] 
 > Body text with `code` and a [link](#h2--heading-two).
 
 > [!important]
 > Multi-line body.
 > Second line of the same callout.
 
-> [!warning] Warning
+> [!warning] 
+>
 > 1. ordered item
 > 2. another item
 
@@ -73,14 +76,6 @@ Second paragraph, to see vertical rhythm between blocks.
 - [x] Task: completed
 - [ ] Task with **formatting** and a [link](https://example.com)
   - [x] Nested completed task
-
-Definition list support (optional):
-
-Term
-: Definition text for the term.
-
-Another term
-: Another definition, long enough that it may wrap across lines when measured against the indent width.
 
 ## Code blocks
 
@@ -132,6 +127,26 @@ def greet(name: str) -> str:
 }
 ```
 
+```html
+<!-- tag / attribute / string / meta roles -->
+<figure class="md-image" data-index="1" hidden>
+  <img src="./upload/screenshot_1.png" alt="screenshot" />
+  <?php echo 'directive marker'; ?>
+</figure>
+```
+
+```js
+// one fence per palette role: def, builtin, regexp, number, string, comment
+const MAX = 12
+class Renderer extends Base {
+  static async draw(@decorated node, sel = 'li > a') {
+    const re = /^(\d+)\.(\d+)\.\d+$/gm
+    return node.querySelectorAll(sel).length > MAX ? null : this
+  }
+}
+// https://example.com/url-inside-a-comment
+```
+
 ```markdown
 ## Raw markdown inside a fence
 
@@ -154,8 +169,8 @@ echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 | Feature | Status | Notes |
 | --- | :-: | --: |
 | Tables | done | alignment per column |
-| Dark mode | todo | see README TODO |
-| Checkbox style | todo | currently plain |
+| Dark mode | done | via `prefers-color-scheme` |
+| Checkbox style | done | accent fill + inline SVG tick |
 
 Wider table with long cells, inline code, links and formatting:
 
@@ -193,11 +208,24 @@ sequenceDiagram
 
 ## Images & figures
 
+Images get an outline plus a drop shadow, so a white screenshot should still read as a
+rectangle on the dark background.
+
 ![Screenshot 1](./upload/screenshot_1.png)
+
+An inline image mid-sentence <img src="./upload/screenshot_3.png" alt="small" width="80" /> to check whether the shadow is too heavy for one-line images.
 
 <div align="center">
   <img src="./upload/screenshot_2.png" alt="centered image via HTML" width="480" />
 </div>
+Typora has no caption syntax for images — `![alt](src "title")` only feeds a tooltip.
+The only route is inline HTML, and it renders only with 偏好设置 → Markdown → HTML →
+“渲染 HTML 标签” turned on:
+
+<figure>
+  <img src="./upload/screenshot_3.png" alt="a screenshot with a caption" width="420" />
+  <figcaption>Figure 1 — figcaption styling (needs 渲染 HTML 标签)</figcaption>
+</figure>
 
 ## HTML & misc
 
@@ -216,7 +244,7 @@ Content hidden inside a `<details>` block, including a list:
   <tr><td>row</td><td>value</td></tr>
 </table>
 
-Text with `<span style="color:#2f6feb">inline styled span</span>`.
+Text with <span style="color:#2f6feb">inline styled span</span> and an HTML comment: <!-- painted with .md-comment, not hidden -->.
 
 ---
 
@@ -232,7 +260,7 @@ Horizontal rules above and below.
 
 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd>
 
-Footnotes: second reference[^1] and a long inline footnote^[Inline footnotes render at the bottom or inline depending on settings.] in the paragraph.
+Footnotes: second reference[^1] in the paragraph.
 
 [^long]: Another footnote with multiple blocks.
 
