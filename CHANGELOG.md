@@ -10,7 +10,7 @@ Nothing scheduled. Everything below was developed and checked on macOS — Windo
 
 ## [0.1.0] - 2026-09-25
 
-The first release with a version that matches what is actually in the file. The stylesheet is a near-complete rewrite of the 2024 original (302 → 1569 lines), reorganised into 22 numbered sections and rebuilt around CSS custom properties: every rule reads from a token, so a colour scheme is a token block rather than a second copy of every selector.
+The first release since the 2024 beta, and the first whose version describes the stylesheet rather than the intent. The file is a near-complete rewrite of the original (302 → 1569 lines), reorganised into 22 numbered sections and rebuilt around CSS custom properties: every rule reads from a token, so a colour scheme is a token block rather than a second copy of every selector.
 
 ### Added
 
@@ -28,7 +28,7 @@ The first release with a version that matches what is actually in the file. The 
 
 - Typographic constants (content width, base size, line height) are tokens, unchanged at `800px` / `14px` / `1.6` so documents do not reflow when you update.
 - Colour literals in `:root` replaced by a named token set — surfaces, text ramp, borders, chrome hooks, syntax marks.
-- Lists, tables and inline code re-tuned for the darker background that Typora paints behind fences.
+- Inline code and fences now sit on a translucent surface (`rgba(0, 0, 0, .05)` where the old theme hardcoded `#f7f7f7`), so the same block reads correctly on either scheme without a second rule.
 
 ### Fixed
 
@@ -37,11 +37,11 @@ The first release with a version that matches what is actually in the file. The 
 
 ### Removed
 
-- `@import url("https://fonts.googleapis.com/icon?family=Material+Icons")`. The theme drew its few glyphs from a remote icon font, which meant an offline editor, a render-blocking request, and glyphs that could not be coloured with the rest of the page. Nothing in the theme needs it any more.
+- `@import url("https://fonts.googleapis.com/icon?family=Material+Icons")`, the first line of the old file. Nothing in the rewritten theme needs an icon font — the checkbox tick is an inline SVG and the remaining marks are plain characters — so the render-blocking request, and the offline blind spot that came with it, are gone.
 
 ## [0.1.0-beta] - 2024-02-07
 
-Initial public theme: a light-only stylesheet covering headings, blockquotes, inline code, YAML front matter, callout backgrounds, TOC and scrollbars.
+The `v0.1.0-beta` tag points at a commit that holds nothing but the README — `docs.css` (renamed `fro.css` the same day) landed just after it. A light-only stylesheet of 302 lines: headings, blockquotes, inline code, YAML front matter, callout backgrounds, TOC and scrollbars, with its glyphs pulled from a remote Material Icons font.
 
 [unreleased]: https://github.com/0froq/typora-fro/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/0froq/typora-fro/releases/tag/v0.1.0
