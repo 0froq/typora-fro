@@ -2,7 +2,7 @@
 
 :root {
   --blur-text-color: rgba(0, 0, 0, 0.4);
-  --code-background-color: #f7f7f7;
+  --code-background-color: rgba(0, 0, 0, 0.05);
   --quote-background-color: rgba(0, 0, 0, 0.05);
   --border-color: #a1a4a8;
   --border-color-hover: #6a737d;
@@ -147,6 +147,7 @@ pre .CodeMirror-scroll::-webkit-scrollbar-thumb:hover {
 
 pre .CodeMirror-gutters {
   height: 100% !important;
+  background-color: transparent;
 }
 
 pre .CodeMirror-gutter {
@@ -193,19 +194,14 @@ blockquote:hover {
   border-left: 4px solid var(--text-color);
 }
 
-#write p code {
+#write code {
   padding: 2px 4px;
   font-size: 0.9em;
   color: var(--text-muted-color);
   background-color: var(--code-background-color);
   border-radius: 4px;
 }
-#write p code::before {
-  content: "`";
-}
-#write p code::after {
-  content: "`";
-}
+
 #write p strong {
   font-weight: 600;
   color: var(--accent-color);
@@ -255,6 +251,39 @@ blockquote:hover {
   color: var(--a-color);
   text-decoration-color: var(--text-color);
   text-underline-offset: 3px;
+}
+
+#write table {
+  margin: 16px auto;
+  border-collapse: collapse;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  page-break-inside: avoid;
+}
+
+#write table thead {
+  border-bottom: 2px solid var(--border-color);
+}
+
+#write table tbody {
+  background-color: var(--bg-color);
+}
+
+#write table th {
+  padding: 10px;
+  font-weight: 600;
+  text-align: center !important;
+}
+
+#write table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+#write table th p,
+#write table td p {
+  margin: 0;
 }
 
 #write .md-alert {
